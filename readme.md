@@ -4,6 +4,7 @@ Hello! I am surprised that you've found this repository. I am actually cooking s
 
 ## 1. Lexer
     1. Usage
+    
         ```lua
             local lexer, output = require("src/scanner/scan.lua")
             output("file_path.lua")
