@@ -269,6 +269,6 @@ function Output(path)
 	end;
 	print("------------------------------------------------------------------");
 	local json = require("json");
-	print(json.encode(lexer.tokenize(src)));
+	--print(json.encode(lexer.tokenize(src)));
 end;
 return lexer, Output;
