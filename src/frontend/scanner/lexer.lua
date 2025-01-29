@@ -123,6 +123,22 @@ function lexer.tokenize(input)
 				value = comment,
 				raw = "--" .. comment
 			});
+		elseif lexer.keywords[search(input, lexer.keywords, i)] then
+			local keyword = search(input, lexer.keywords, i);
+			table.insert(tokens, {
+				type = "keyword",
+				value = keyword,
+				raw = keyword
+			});
+			i = i + (#keyword);
+		elseif lexer.syntax[getchars(input, 1, i)] then
+			local syntax = getchars(input, 1, i);
+			table.insert(tokens, {
+				type = "syntax",
+				value = syntax,
+				raw = syntax
+			});
+			i = i + (#syntax);
 		elseif lexer.delimiters[getchars(input, 3, i)] or lexer.delimiters[getchars(input, 2, i)] or lexer.delimiters[char] then
 			local delimiter = lexer.delimiters[getchars(input, 3, i)] and getchars(input, 3, i) or (lexer.delimiters[getchars(input, 2, i)] and getchars(input, 2, i) or char);
 			local str = "";
@@ -238,22 +254,6 @@ function lexer.tokenize(input)
 				value = tonumber(number),
 				raw = number
 			});
-		elseif lexer.keywords[search(input, lexer.keywords, i)] then
-			local keyword = search(input, lexer.keywords, i);
-			table.insert(tokens, {
-				type = "keyword",
-				value = keyword,
-				raw = keyword
-			});
-			i = i + (#keyword);
-		elseif lexer.syntax[getchars(input, 1, i)] then
-			local syntax = getchars(input, 1, i);
-			table.insert(tokens, {
-				type = "syntax",
-				value = syntax,
-				raw = syntax
-			});
-			i = i + (#syntax);
 		else
 			i = i + 1;
 		end;
@@ -271,4 +271,4 @@ function Output(path)
 	local json = require("json");
 	print(json.encode(lexer.tokenize(src)));
 end;
-return lexer, Output;
+return lexer;
